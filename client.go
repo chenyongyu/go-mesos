@@ -25,16 +25,16 @@ type Client struct {
 }
 
 type MesosClient interface {
-    setMasterURL(leader string)
-    masterURL() string
-    buildDiscoveryURL(uri string) string
+    SetMasterURL(leader string)
+    MasterURL() string
+    BuildDiscoveryURL(uri string) string
 
-    slaveStateURL(hostname string) string
-    slaveStatsURL(hostname string) string
+    SlaveStateURL(hostname string) string
+    SlaveStatsURL(hostname string) string
 
-    doApiRequest(url string, result interface{}) (int, string, error)
-    unMarshallDataToJson(stream io.Reader, result interface{}) error
-    doRequst(method, url string)(int, string, *http.Response, error)
+    DoApiRequest(url string, result interface{}) (int, string, error)
+    UnMarshallDataToJson(stream io.Reader, result interface{}) error
+    DoRequst(method, url string)(int, string, *http.Response, error)
 }
 
 
