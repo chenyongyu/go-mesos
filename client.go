@@ -33,7 +33,7 @@ type MesosClient interface {
     SlaveStatsURL(hostname string) string
 
     DoApiRequest(url string, result interface{}) (int, string, error)
-    UnMarshallDataToJson(stream io.Reader, result interface{}) error
+    unMarshallDataToJson(stream io.Reader, result interface{}) error
     DoRequst(method, url string)(int, string, *http.Response, error)
 }
 
@@ -52,7 +52,7 @@ func NewClient(config Config) (*Client) {
 }
 
 
-func (c *Client) doApiRequest(url string, result interface{}) (int, string, error)  {
+func (c *Client) DoApiRequest(url string, result interface{}) (int, string, error)  {
     if status, content, _, err := c.doRequst(HTTP_GET, url); err != nil {
 		return 0, "", err
     } else {
@@ -88,7 +88,7 @@ func (c *Client) unMarshallDataToJson(stream io.Reader, result interface{}) erro
 }
 
 
-func (c *Client) doRequst(method, url string)(int, string, *http.Response, error) {
+func (c *Client) DoRequst(method, url string)(int, string, *http.Response, error) {
     client := &http.Client{}
     if request, err := http.NewRequest(method, url, nil); err != nil {
         c.logger.Printf("Unable to make call to Mesos: %s", err)
@@ -121,25 +121,25 @@ func (c *Client) buildDiscoveryURL(uri string) string {
 }
 
 
-func (c *Client) setMasterURL(leader string) {
+func (c *Client) SetMasterURL(leader string) {
     c.config.MasterURL = fmt.Sprintf("%s//%s:%d", c.config.getScheme(), leader, c.config.MasterPort)
 }
 
 
-func (c *Client) masterURL() string {
+func (c *Client) MasterURL() string {
     return c.config.MasterURL
 }
 
 
-func (c *Client) slaveStateURL(hostname string) string {
+func (c *Client) SlaveStateURL(hostname string) string {
     return c.slaveURL(hostname, "slave(1)/state.json")
 }
 
 
-func (c *Client) slaveStatsURL(hostname string) string {
+func (c *Client) SlaveStatsURL(hostname string) string {
     return c.slaveURL(hostname, "metrics/snapshot")
 }
 
-func (c *Client) slaveURL(hostname, uri string) string {
+func (c *Client) SlaveURL(hostname, uri string) string {
     return fmt.Sprintf("%s//%s:%d/%s", c.config.getScheme(), hostname, c.config.SlavePort, uri)
 }
