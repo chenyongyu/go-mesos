@@ -53,7 +53,7 @@ func NewClient(config Config) (*Client) {
 
 
 func (c *Client) DoApiRequest(url string, result interface{}) (int, string, error)  {
-    if status, content, _, err := c.doRequst(HTTP_GET, url); err != nil {
+    if status, content, _, err := c.DoRequst(HTTP_GET, url); err != nil {
 		return 0, "", err
     } else {
 		if status >= 200 && status <= 299 {
@@ -132,12 +132,12 @@ func (c *Client) MasterURL() string {
 
 
 func (c *Client) SlaveStateURL(hostname string) string {
-    return c.slaveURL(hostname, "slave(1)/state.json")
+    return c.SlaveURL(hostname, "slave(1)/state.json")
 }
 
 
 func (c *Client) SlaveStatsURL(hostname string) string {
-    return c.slaveURL(hostname, "metrics/snapshot")
+    return c.SlaveURL(hostname, "metrics/snapshot")
 }
 
 func (c *Client) SlaveURL(hostname, uri string) string {
